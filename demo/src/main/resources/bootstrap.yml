@@ -1,0 +1,51 @@
+spring:
+  cloud:
+    gateway:
+      locator:
+        enabled: true
+      routes:
+      - id: host_route
+        uri: http://172.16.4.213:9002/person/save
+        predicates:
+        - Path=/uaa/**
+  application:
+    name: gateway
+server:
+  port: 9002
+eureka:
+  client:
+    service-url:
+      defaultZone: http://172.16.4.213:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: 172.16.4.213:8080:${spring.application.name}
+
+#zuul:
+  #sensitiveHeaders :
+  #routes:
+    #uaa:
+      #path: /uaa/**
+      #serviceId: zuul-server
+      #sensitiveHeaders: Access-Control-Allow-Origin,Access-Control-Allow-Credentials
+    #unificationService-route:
+      #path: /api/**
+      #service-id: unificationService
+  #add-proxy-headers: true
+  #ignored: /v2/api-docs,/swagger-resources,/configuration/security,/swagger-ui.html,/webjars
+  #host:
+    #socket-timeout-millis: 600000
+    #connect-timeout-millis: 600000
+          #path: /uaa/**
+          #predicates: zuul-server
+          #sensitiveHeaders: Access-Control-Allow-Origin,Access-Control-Allow-Credentials
+        #unificationService-route:
+          #path: /api/**
+          #predicates: unificationService
+    
+
+#如需修改配置，请删除前面的#
+#oauth2:
+  #client-id: baihongsoft
+  #client-secret: baihongsoft
+#  oauth2.access-token-seconds: 120117
+#  oauth2.refresh-token-seconds: 505151
